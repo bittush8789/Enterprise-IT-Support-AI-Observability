@@ -1,0 +1,84 @@
+[
+  {
+    "id": "eval-001",
+    "category": "VPN Access",
+    "question": "How do I connect to the company VPN from home?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["NovaSecure", "VPN", "gateway", "MFA"],
+    "ground_truth_answer": "Install the NovaSecure VPN client from the internal Software Portal, log in with company credentials, complete MFA, and connect to the nearest corporate gateway."
+  },
+  {
+    "id": "eval-002",
+    "category": "Password Policy",
+    "question": "How many characters must my company password be?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["14", "characters", "self-service"],
+    "ground_truth_answer": "Company passwords must be at least 14 characters long. Employees should use the self-service identity portal for resets."
+  },
+  {
+    "id": "eval-003",
+    "category": "Security / MFA",
+    "question": "Can IT support ask me to share my MFA code?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["never", "share", "passwords", "MFA"],
+    "ground_truth_answer": "No. Employees must never share passwords or MFA codes with support personnel or anyone else."
+  },
+  {
+    "id": "eval-004",
+    "category": "Hardware / Incident",
+    "question": "What should I do if my company laptop is stolen or lost?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["report", "Service Desk", "asset tag", "lock/wipe"],
+    "ground_truth_answer": "Immediately report a lost or stolen company laptop to the IT Service Desk and your manager with the asset tag and last known location so IT can initiate lock/wipe procedures."
+  },
+  {
+    "id": "eval-005",
+    "category": "Software Policy",
+    "question": "How do I install software not in the Software Portal?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["manager approval", "IT security review"],
+    "ground_truth_answer": "Requests for software not listed in the company portal require manager approval and IT security review before installation."
+  },
+  {
+    "id": "eval-006",
+    "category": "Runbook / Incident Priority",
+    "question": "What defines a P1 priority ticket in the service desk runbook?",
+    "expected_route": "kb",
+    "expected_source": "private_kb",
+    "ground_truth_keywords": ["company-wide outage", "critical security incident"],
+    "ground_truth_answer": "A P1 ticket is defined as a company-wide outage or a critical security incident."
+  },
+  {
+    "id": "eval-007",
+    "category": "Direct Conversation",
+    "question": "Hello, how are you today?",
+    "expected_route": "direct",
+    "expected_source": "direct",
+    "ground_truth_keywords": ["hello", "assist", "great", "doing"],
+
+    "ground_truth_answer": "A polite and professional greeting offering assistance with IT support."
+  },
+  {
+    "id": "eval-008",
+    "category": "Direct Conversation",
+    "question": "Thank you so much for the assistance!",
+    "expected_route": "direct",
+    "expected_source": "direct",
+    "ground_truth_keywords": ["welcome", "glad", "help", "anytime"],
+    "ground_truth_answer": "A polite acknowledgement thanking the user and offering further assistance."
+  },
+  {
+    "id": "eval-009",
+    "category": "External Web Fallback",
+    "question": "What is the latest Microsoft Teams outage guidance?",
+    "expected_route": "kb",
+    "expected_source": "web_search",
+    "ground_truth_keywords": ["Teams", "Microsoft"],
+    "ground_truth_answer": "Outage guidance retrieved from external web sources regarding Microsoft Teams status."
+  }
+]

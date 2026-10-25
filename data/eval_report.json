@@ -1,0 +1,266 @@
+{
+  "timestamp": "2026-10-25T14:14:21.027847+00:00",
+  "mode": "live",
+  "total_samples": 9,
+  "routing_accuracy": 1.0,
+  "source_accuracy": 1.0,
+  "avg_keyword_coverage": 0.852,
+  "overall_pass_rate": 1.0,
+  "avg_latency_seconds": 11.975,
+  "category_metrics": {
+    "Direct Conversation": {
+      "total": 2.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 0.625
+    },
+    "External Web Fallback": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 1.0
+    },
+    "Hardware / Incident": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 0.75
+    },
+    "Password Policy": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 0.667
+    },
+    "Runbook / Incident Priority": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 1.0
+    },
+    "Security / MFA": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 1.0
+    },
+    "Software Policy": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 1.0
+    },
+    "VPN Access": {
+      "total": 1.0,
+      "pass_rate": 1.0,
+      "routing_accuracy": 1.0,
+      "avg_keyword_coverage": 1.0
+    }
+  },
+  "results": [
+    {
+      "sample_id": "eval-001",
+      "category": "VPN Access",
+      "question": "How do I connect to the company VPN from home?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 1.0,
+      "matched_keywords": [
+        "NovaSecure",
+        "VPN",
+        "gateway",
+        "MFA"
+      ],
+      "missing_keywords": [],
+      "latency_seconds": 29.219,
+      "actual_answer": "**Answer (based on NovaRetail\u2019s private knowledge base):**\n\n1. **Install the client**  \n   - Open the internal **Software Portal**.  \n   - Download and install **NovaSecure VPN**.\n\n2. **Launch and sign in**  \n   - Open NovaSecure VPN.  \n   - Enter your **company email** and **password**.  \n\n3. **Complete MFA**  \n   - Approve the sign\u2011in request using the **company authenticator app** (or registered hardware key).\n\n4. **Select a gateway**  \n   - Choose the **closest corporate gateway** from the list.\n\n5. **Connect**  \n   - Click **Connect** and wait for the tunnel to establish.\n\n6. **If the connection fails**  \n   - Verify your internet connection is working.  \n   - Restart the NovaSecure client.  \n   - Try selecting a different corporate gateway.  \n   - **Do not** disable endpoint security or firewall settings.\n\n7. **Escalate**  \n   - If you still cannot connect, open an IT ticket and attach a screenshot of the error message.\n\n*This guidance follows the procedures outlined in NovaRetail\u2019s internal IT Support Handbook.*",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-002",
+      "category": "Password Policy",
+      "question": "How many characters must my company password be?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 0.667,
+      "matched_keywords": [
+        "14",
+        "characters"
+      ],
+      "missing_keywords": [
+        "self-service"
+      ],
+      "latency_seconds": 2.27,
+      "actual_answer": "Based on the company\u2019s private knowledge base, passwords must be **at least\u202f14\u202fcharacters** long.\u202f*(Answer sourced from the internal IT handbook.)*",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-003",
+      "category": "Security / MFA",
+      "question": "Can IT support ask me to share my MFA code?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 1.0,
+      "matched_keywords": [
+        "never",
+        "share",
+        "passwords",
+        "MFA"
+      ],
+      "missing_keywords": [],
+      "latency_seconds": 2.638,
+      "actual_answer": "**No.**\u202fAccording to the company\u2019s internal IT handbook, employees must never share passwords **or** MFA codes with support personnel. If a support representative asks for your MFA code, politely decline and report the request to the IT Service\u202fDesk or your manager.\n\n*This answer is based on the company\u2019s private knowledge base.*",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-004",
+      "category": "Hardware / Incident",
+      "question": "What should I do if my company laptop is stolen or lost?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 0.75,
+      "matched_keywords": [
+        "report",
+        "Service Desk",
+        "asset tag"
+      ],
+      "missing_keywords": [
+        "lock/wipe"
+      ],
+      "latency_seconds": 2.885,
+      "actual_answer": "**Based on the company\u2019s private knowledge base**:\n\n1. **Report immediately**  \n   - Call or email the **IT Service Desk**.  \n   - Notify your **manager** at the same time.\n\n2. **Provide key details**  \n   - Device **asset tag** (if you have it).  \n   - **Last known location** of the laptop.\n\n3. **What IT will do**  \n   - Initiate a **device lock** and, if required, a **remote wipe**.  \n   - Coordinate with **Security** for further investigation.\n\n4. **Do NOT**  \n   - Attempt any remote recovery or wiping yourself.  \n\nFollowing these steps ensures the device is secured quickly and complies with company policy.",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-005",
+      "category": "Software Policy",
+      "question": "How do I install software not in the Software Portal?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 1.0,
+      "matched_keywords": [
+        "manager approval",
+        "IT security review"
+      ],
+      "missing_keywords": [],
+      "latency_seconds": 12.21,
+      "actual_answer": "**Based on the company\u2019s private knowledge base:**  \n\n1. **Obtain manager approval** \u2013 Ask your manager to formally approve the need for the software.  \n2. **Submit a request to IT** \u2013 Open an IT Service Desk ticket (or use the designated request form) and attach the manager\u2019s approval.  \n3. **IT security review** \u2013 The security team will evaluate the application for compliance, licensing, and risk.  \n4. **Installation** \u2013 If the review is successful, IT will either install the software for you or provide the necessary permissions.  \n5. **Note** \u2013 Administrator rights are **not** granted simply to install unapproved applications; installation proceeds only after the above approvals.\n\nIf you need help creating the ticket or locating the request form, let me know.",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-006",
+      "category": "Runbook / Incident Priority",
+      "question": "What defines a P1 priority ticket in the service desk runbook?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "private_kb",
+      "actual_source": "private_kb",
+      "source_match": true,
+      "keyword_coverage": 1.0,
+      "matched_keywords": [
+        "company-wide outage",
+        "critical security incident"
+      ],
+      "missing_keywords": [],
+      "latency_seconds": 12.835,
+      "actual_answer": "Based on the company\u2019s private knowledge base, a **P1 priority ticket** is defined as a **company\u2011wide outage or a critical security incident**.\u202fThis classification is taken directly from the Service Desk Runbook.\u202f*(Answer sourced from the company\u2019s private KB.)*",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-007",
+      "category": "Direct Conversation",
+      "question": "Hello, how are you today?",
+      "expected_route": "direct",
+      "actual_route": "direct",
+      "route_match": true,
+      "expected_source": "direct",
+      "actual_source": "direct",
+      "source_match": true,
+      "keyword_coverage": 0.5,
+      "matched_keywords": [
+        "great",
+        "doing"
+      ],
+      "missing_keywords": [
+        "hello",
+        "assist"
+      ],
+      "latency_seconds": 5.554,
+      "actual_answer": "I'm doing great, thanks! How about you?",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-008",
+      "category": "Direct Conversation",
+      "question": "Thank you so much for the assistance!",
+      "expected_route": "direct",
+      "actual_route": "direct",
+      "route_match": true,
+      "expected_source": "direct",
+      "actual_source": "direct",
+      "source_match": true,
+      "keyword_coverage": 0.75,
+      "matched_keywords": [
+        "welcome",
+        "glad",
+        "help"
+      ],
+      "missing_keywords": [
+        "anytime"
+      ],
+      "latency_seconds": 1.378,
+      "actual_answer": "You\u2019re very welcome! Glad I could help.",
+      "passed": true,
+      "notes": "Pass"
+    },
+    {
+      "sample_id": "eval-009",
+      "category": "External Web Fallback",
+      "question": "What is the latest Microsoft Teams outage guidance?",
+      "expected_route": "kb",
+      "actual_route": "kb",
+      "route_match": true,
+      "expected_source": "web_search",
+      "actual_source": "web_search",
+      "source_match": true,
+      "keyword_coverage": 1.0,
+      "matched_keywords": [
+        "Teams",
+        "Microsoft"
+      ],
+      "missing_keywords": [],
+      "latency_seconds": 38.783,
+      "actual_answer": "**Answer (based on external web information \u2013 please verify with your own IT and Microsoft Service Health sources before making any changes to company\u2011managed systems):**\n\nThe most recent guidance for a Microsoft Teams outage (as reflected in the web sources dated\u202fJanuary\u202f2024\u202f\u2013\u202fJanuary\u202f2026) includes the following steps:\n\n1. **Confirm the outage**  \n   * Check the **Microsoft 365 Service Health Dashboard** (or the admin portal\u2019s Service Health console) for an incident entry (e.g., incident\u202fTM710344 reported\u202f26\u202fJan\u202f2024).  \n   * Search \u201cMicrosoft Teams outage\u201d online or view the Microsoft\u202fQ&A posts that reference the same incident.\n\n2. **Monitor Microsoft communications**  \n   * Follow updates on the **Microsoft status page** or the Service Health Dashboard for real\u2011time status and estimated resolution times.  \n   * Microsoft may post statements about traffic re\u2011balancing, load\u2011balancing configuration changes, or ongoing remediation efforts.\n\n3. **Do not take immediate corrective action on user devices**  \n   * In most cases the guidance says **no user\u2011side action is required** while Microsoft engineers work on the fix.  \n   * Once the service is restored, Teams should function normally without any configuration changes.\n\n4. **If you need to troubleshoot locally (while the service is still degraded)**  \n   * **Update the Teams client** to the latest version (via the app store or Microsoft download page).  \n   * **Apply pending OS updates** (Windows or macOS) to ensure compatibility.  \n   * **End any stuck Teams processes** (Task Manager\u202f\u2192\u202f\u201cTeams\u201d or \u201cTeams.exe\u201d \u2192\u202fEnd task) and then restart the app.  \n   * Verify network connectivity and that the browser you\u2019re using is supported (Microsoft Edge is recommended).\n\n5. **Stay informed**  \n   * Keep an eye on the **Service Health Dashboard** for any changes to the incident status.  \n   * If the dashboard shows Teams as \u201chealthy\u201d but you still experience issues, open a support ticket with Microsoft for further investigation.\n\n---\n\n**Key take\u2011away:** The primary guidance is to **verify the outage via the Service Health Dashboard**, **monitor Microsoft\u2019s official updates**, and **ensure your Teams client and operating system are up\u2011to\u2011date**. Direct user\u2011side remediation is generally not required until Microsoft signals that the service has been restored.",
+      "passed": true,
+      "notes": "Pass"
+    }
+  ]
+}

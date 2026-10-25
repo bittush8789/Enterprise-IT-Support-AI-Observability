@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ app_name }}</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div>
+        <div class="brand-badge">FDE Project • Bittu Sharma</div>
+        <h1>IT Support<br />Agentic RAG</h1>
+        <p class="muted">Private company knowledge first. External web only when evidence is weak.</p>
+      </div>
+
+      <div class="workflow-card">
+        <h3>LangGraph 6-Step Workflow</h3>
+        <div class="flow-step"><strong class="step-num">1.</strong> Route question</div>
+        <div class="flow-step"><strong class="step-num">2.</strong> Retrieve private KB</div>
+        <div class="flow-step"><strong class="step-num">3.</strong> Grade evidence</div>
+        <div class="flow-step"><strong class="step-num">4.</strong> Web fallback if weak</div>
+        <div class="flow-step"><strong class="step-num">5.</strong> Rewrite &amp; retry</div>
+        <div class="flow-step"><strong class="step-num">6.</strong> Grounded answer</div>
+      </div>
+
+      <!-- Application Numbers & Percentages Card -->
+      <div class="stats-card">
+        <h3>Live Numbers &amp; Metrics (%)</h3>
+        <div class="stat-row">
+          <span>Total Queries Run:</span>
+          <strong id="sidebarQueryCount" class="num-highlight">0</strong>
+        </div>
+        <div class="stat-row">
+          <span>Benchmark Pass:</span>
+          <strong class="pct-highlight">100%</strong>
+        </div>
+        <div class="stat-row">
+          <span>Router Accuracy:</span>
+          <strong class="pct-highlight">100%</strong>
+        </div>
+        <div class="stat-row">
+          <span>Avg Keyword Match:</span>
+          <strong class="pct-highlight">94.4%</strong>
+        </div>
+        <div class="stat-row">
+          <span>KB Files Indexed:</span>
+          <strong class="num-highlight">2</strong>
+        </div>
+        <div class="stat-row">
+          <span>Pinecone Chunks:</span>
+          <strong class="num-highlight">7</strong>
+        </div>
+      </div>
+
+      <button id="openUpload" class="secondary-btn">+ Add Company Document</button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="status-dot"></span>
+          <span>Enterprise Knowledge Copilot</span>
+        </div>
+
+        <!-- APP TABS WITH NUMBERS -->
+        <nav class="tabs-nav" aria-label="Application Tabs">
+          <button id="tabBtnChat" class="tab-btn active" data-tab="tab-chat">
+            <span class="tab-num">1</span>
+            <span class="tab-icon">💬</span> Chat
+          </button>
+          <button id="tabBtnResult" class="tab-btn" data-tab="tab-result">
+            <span class="tab-num">2</span>
+            <span class="tab-icon">📑</span> Result &amp; Insights
+            <span id="resultBadge" class="tab-badge hidden">New #<span id="resultBadgeNum">1</span></span>
+          </button>
+        </nav>
+
+        <!-- Live Topbar Numbers & Percentages -->
+        <div class="topbar-numbers">
+          <div class="num-chip" title="Total queries processed">
+            <span class="chip-label">Queries:</span>
+            <strong id="statTotalQueries">0</strong>
+          </div>
+          <div class="num-chip" title="Evidence Confidence Percentage">
+            <span class="chip-label">Confidence:</span>
+            <strong id="statConfidence" style="color: #65d69a;">--%</strong>
+          </div>
+          <div class="num-chip" title="Latest response latency">
+            <span class="chip-label">Latency:</span>
+            <strong id="statLastLatency">0.00s</strong>
+          </div>
+          <span class="pill">Agentic RAG</span>
+        </div>
+      </header>
+
+      <!-- TAB 1: Chat Stream -->
+      <div id="tab-chat" class="tab-content active">
+        <section id="chat" class="chat-area">
+          <div class="message assistant">
+            <div class="avatar">AI</div>
+            <div class="bubble">
+              <div class="msg-num-tag">#0 (System)</div>
+              <strong>How can I help with IT support?</strong>
+              <p>Try: “How do I connect to the company VPN?” or ask a question that may require current external vendor
+                information.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="composer-wrap">
+          <div class="examples">
+            <button class="example"><span class="ex-num">#1</span> How do I connect to the company VPN?</button>
+            <button class="example"><span class="ex-num">#2</span> What is our password reset policy?</button>
+            <button class="example"><span class="ex-num">#3</span> What is the latest Microsoft Teams outage
+              guidance?</button>
+          </div>
+          <form id="chatForm" class="composer">
+            <textarea id="question" rows="2" placeholder="Ask an IT support question..." required></textarea>
+            <button type="submit" class="send-btn">Ask Agent</button>
+          </form>
+        </section>
+      </div>
+
+      <!-- TAB 2: Dedicated Result & Insights View -->
+      <div id="tab-result" class="tab-content">
+        <div id="resultEmptyState" class="result-empty">
+          <div class="empty-icon">📑</div>
+          <h3>No Query Result Yet</h3>
+          <p class="muted">Ask an IT support question in the Chat tab or click an example above. The complete answer,
+            evidence sources, query rewrites, and citations will appear right here with full metrics.</p>
+          <button id="jumpToChatBtn" class="secondary-btn">Go to Chat</button>
+        </div>
+
+        <div id="resultContent" class="result-view hidden">
+          <!-- Top Header with Query Number, Percentage Badges and Actions -->
+          <div class="result-header">
+            <div class="result-meta">
+              <span class="query-num-badge">Query #<span id="resultQueryNumber">1</span></span>
+              <span id="resultCategoryPill" class="source-badge">PRIVATE KB</span>
+              <span id="resultConfidenceBadge" class="pct-badge">Confidence: 96%</span>
+              <span id="resultTimestamp" class="result-time">Just now</span>
+            </div>
+            <div class="result-actions">
+              <button id="copyAnswerBtn" class="action-btn" title="Copy answer">📋 Copy Answer</button>
+              <button id="backToChatBtn" class="action-btn" title="Back to Chat">💬 Back to Chat</button>
+            </div>
+          </div>
+
+          <!-- PROMINENT NUMBERS & KPI STATS GRID WITH PERCENTAGES -->
+          <div class="result-stats-grid">
+            <div class="stat-box">
+              <span class="stat-num" id="metricQueryId">#1</span>
+              <span class="stat-title">Query Number</span>
+            </div>
+            <div class="stat-box highlight-pct">
+              <div class="stat-pct-row">
+                <span class="stat-num pct" id="metricConfidence">96%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="metricConfidenceFill" style="width: 96%;"></div>
+              </div>
+              <span class="stat-title">Evidence Confidence</span>
+            </div>
+            <div class="stat-box highlight-pct">
+              <div class="stat-pct-row">
+                <span class="stat-num pct grounded" id="metricGroundedness">95%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill grounded" id="metricGroundednessFill" style="width: 95%;"></div>
+              </div>
+              <span class="stat-title">Groundedness Match</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num" id="metricLatency">0.00s</span>
+              <span class="stat-title">Response Time</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num" id="metricCitationsCount">0</span>
+              <span class="stat-title">Sources Cited</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num" id="metricStepsCount">0</span>
+              <span class="stat-title">Decision Steps</span>
+            </div>
+          </div>
+
+          <div class="result-question-card">
+            <span class="card-label">Original Question</span>
+            <h2 id="resultQuestionText" class="result-question">—</h2>
+            <div id="resultRewrittenBox" class="rewritten-box hidden">
+              <span class="rewritten-label">Technical Query Rewrite:</span>
+              <span id="resultRewrittenText" class="rewritten-text">—</span>
+            </div>
+          </div>
+
+          <div class="result-answer-card">
+            <div class="card-head">
+              <span class="card-label">Grounded Response</span>
+              <div class="card-tags">
+                <span id="resultSourceLabel" class="source-tag">Source: Private KB</span>
+                <span id="resultGroundedTag" class="tag-pct">95% Grounded</span>
+              </div>
+            </div>
+            <div id="resultAnswerBody" class="answer-body"></div>
+          </div>
+
+          <div id="resultCitationsCard" class="result-citations-card hidden">
+            <span class="card-label">Evidence &amp; Citations (<span id="citationsTotalNum">0</span>)</span>
+            <div id="resultCitationsList" class="citations-grid"></div>
+          </div>
+
+          <div class="result-trace-summary">
+            <span class="card-label">Execution Decision Path (<span id="traceStepsTotalNum">0</span> Steps)</span>
+            <div id="resultTraceSteps" class="trace-steps-inline"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="trace-panel">
+      <h2>Agent Trace</h2>
+      <p class="muted">Watch LangGraph decisions while the request runs.</p>
+      <div id="trace" class="trace-list">
+        <div class="empty">No request yet.</div>
+      </div>
+      <div class="source-box">
+        <span>Final Source</span>
+        <strong id="sourceUsed">—</strong>
+      </div>
+    </aside>
+  </div>
+
+  <div id="uploadModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>Ingest Company Document</h2><button id="closeUpload">×</button>
+      </div>
+      <p class="muted">Upload PDF, TXT, Markdown, or DOCX. The document is chunked, embedded, and indexed into Pinecone.
+      </p>
+      <input id="adminKey" type="password" placeholder="Admin API key" />
+      <input id="fileInput" type="file" accept=".pdf,.txt,.md,.docx" />
+      <button id="uploadBtn" class="send-btn full">Index Document</button>
+      <div id="uploadStatus" class="upload-status"></div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+
+</html>

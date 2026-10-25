@@ -1,0 +1,19 @@
+define user express insult
+  "you are stupid"
+  "shut up"
+  "you suck"
+  "you are useless"
+
+define flow
+  user express insult
+  bot respond politely
+  stop
+
+define bot respond politely
+  "I am here to assist you with enterprise IT support professionally. Please let me know if you have an IT issue or question I can help resolve."
+
+define bot refuse jailbreak
+  "I am an enterprise IT support copilot. I cannot process requests that attempt to override system instructions or bypass security safeguards."
+
+define bot refuse sensitive content
+  "This response has been blocked by enterprise security guardrails to prevent disclosure of restricted or sensitive information."
