@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import List, Literal, Optional
 from typing_extensions import TypedDict
 from pydantic import BaseModel, Field
 from langchain_core.documents import Document
@@ -9,7 +9,7 @@ class RouteDecision(BaseModel):
 class EvidenceGrade(BaseModel):
     grade: Literal["good", "weak"] = Field(description="Whether evidence is sufficient to answer")
 
-class AgentState(TypedDict):
+class AgentState(TypedDict, total=False):
     question: str
     current_query: str
     kb_docs: List[Document]
@@ -21,3 +21,5 @@ class AgentState(TypedDict):
     retry_count: int
     trace: List[str]
     citations: List[dict]
+    trace_id: Optional[str]
+    trace_url: Optional[str]

@@ -1,11 +1,12 @@
 import logging
-from typing import Literal
+from typing import Literal, Optional, List
 from langchain_groq import ChatGroq
 from langchain_tavily import TavilySearch
 from langgraph.graph import StateGraph, START, END
 from app.core.config import get_settings
 from app.rag.state import AgentState, RouteDecision, EvidenceGrade
 from app.rag.vectorstore import get_retriever
+from app.core.observability import get_langfuse_handler, get_trace_url_safe, flush_langfuse
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -197,7 +198,12 @@ def build_graph():
 
 agent_graph = build_graph()
 
-def ask(question: str):
+def ask(
+    question: str,
+    session_id: Optional[str] = None,
+    user_id: Optional[str] = None,
+    tags: Optional[List[str]] = None,
+):
     initial: AgentState = {
         "question": question,
         "current_query": question,
@@ -211,4 +217,26 @@ def ask(question: str):
         "trace": [],
         "citations": [],
     }
-    return agent_graph.invoke(initial)
+
+    # Hook in Langfuse observability handler
+    handler = get_langfuse_handler(session_id=session_id, user_id=user_id, tags=tags)
+    config = {}
+    if handler:
+        config["callbacks"] = [handler]
+        config["metadata"] = {
+            "langfuse_session_id": session_id or "default-session",
+            "langfuse_user_id": user_id or "anonymous-user",
+            "langfuse_trace_name": "agentic-it-support",
+            "langfuse_tags": tags or ["agentic-rag", "enterprise-it"],
+        }
+
+    result = agent_graph.invoke(initial, config=config if config else None)
+
+    # Attach trace telemetry if available
+    trace_id = getattr(handler, "last_trace_id", None) if handler else None
+    if trace_id:
+        result["trace_id"] = trace_id
+        result["trace_url"] = get_trace_url_safe(trace_id)
+        flush_langfuse()
+
+    return result

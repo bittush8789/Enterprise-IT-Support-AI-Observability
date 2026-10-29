@@ -19,6 +19,12 @@ const sidebarQueryCount = document.getElementById('sidebarQueryCount');
 const statTotalQueries = document.getElementById('statTotalQueries');
 const statLastLatency = document.getElementById('statLastLatency');
 const statConfidence = document.getElementById('statConfidence');
+const sidebarObservabilityStatus = document.getElementById('sidebarObservabilityStatus');
+
+// Observability & Langfuse Elements
+const viewLangfuseTraceBtn = document.getElementById('viewLangfuseTraceBtn');
+const traceLangfuseBox = document.getElementById('traceLangfuseBox');
+const traceLangfuseLink = document.getElementById('traceLangfuseLink');
 
 // Result View Elements
 const resultEmptyState = document.getElementById('resultEmptyState');
@@ -213,6 +219,21 @@ function populateResultTab(query, data, queryNum, elapsedSec) {
   metricStepsCount.textContent = data.trace ? data.trace.length : 0;
   metricCitationsCount.textContent = data.citations ? data.citations.length : 0;
 
+  // Langfuse Trace Link Handling
+  if (data.trace_url) {
+    if (viewLangfuseTraceBtn) {
+      viewLangfuseTraceBtn.href = data.trace_url;
+      viewLangfuseTraceBtn.classList.remove('hidden');
+    }
+    if (traceLangfuseBox && traceLangfuseLink) {
+      traceLangfuseLink.href = data.trace_url;
+      traceLangfuseBox.classList.remove('hidden');
+    }
+  } else {
+    if (viewLangfuseTraceBtn) viewLangfuseTraceBtn.classList.add('hidden');
+    if (traceLangfuseBox) traceLangfuseBox.classList.add('hidden');
+  }
+
   // Question & Query Rewrite
   resultQuestionText.textContent = query;
   if (data.rewritten_query && data.rewritten_query.trim().toLowerCase() !== query.trim().toLowerCase()) {
@@ -276,6 +297,13 @@ async function askAgent(q) {
   queryCounter += 1;
   const currentNum = queryCounter;
 
+  // Retrieve or create persistent conversation session ID for Langfuse attribution
+  let sessionId = sessionStorage.getItem('it_copilot_session_id');
+  if (!sessionId) {
+    sessionId = 'session_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now();
+    sessionStorage.setItem('it_copilot_session_id', sessionId);
+  }
+
   // Update real-time query counters
   if (sidebarQueryCount) sidebarQueryCount.textContent = currentNum;
   if (statTotalQueries) statTotalQueries.textContent = currentNum;
@@ -294,7 +322,11 @@ async function askAgent(q) {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: q })
+      body: JSON.stringify({
+        question: q,
+        session_id: sessionId,
+        user_id: 'enterprise_employee'
+      })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.detail || 'Request failed');
@@ -358,13 +390,14 @@ document.getElementById('uploadBtn').onclick = async () => {
     return;
   }
   status.textContent = 'Indexing document...';
+
   const fd = new FormData();
   fd.append('file', file);
 
   try {
     const r = await fetch('/api/ingest', {
       method: 'POST',
-      headers: { 'X-Admin-Key': key },
+      headers: { 'x-admin-key': key },
       body: fd
     });
     const d = await r.json();
@@ -374,6 +407,28 @@ document.getElementById('uploadBtn').onclick = async () => {
     status.textContent = `Error: ${e.message}`;
   }
 };
+
+// Check Observability / Langfuse Status on load
+async function checkObservabilityStatus() {
+  try {
+    const res = await fetch('/api/observability/status');
+    if (res.ok) {
+      const data = await res.json();
+      if (sidebarObservabilityStatus) {
+        if (data.configured) {
+          sidebarObservabilityStatus.textContent = 'Langfuse Active 🟢';
+          sidebarObservabilityStatus.style.color = '#65d69a';
+        } else {
+          sidebarObservabilityStatus.textContent = 'Langfuse Ready ⚪';
+          sidebarObservabilityStatus.style.color = '#a0aec0';
+        }
+      }
+    }
+  } catch (e) {
+    // Graceful fallback
+  }
+}
+checkObservabilityStatus();
 
 // URL parameters check for Demo / Screenshot / Proof mode
 const urlParams = new URLSearchParams(window.location.search);
@@ -393,7 +448,8 @@ if (urlParams.get('demo') === '1') {
       { title: "company_it_handbook.md", url: "", type: "private_kb", relevance_score: 0.96 },
       { title: "service_desk_runbook.md", url: "", type: "private_kb", relevance_score: 0.91 }
     ],
-    rewritten_query: "NovaRetail corporate VPN NovaSecure installation MFA gateway connection procedure"
+    rewritten_query: "NovaRetail corporate VPN NovaSecure installation MFA gateway connection procedure",
+    trace_url: "https://cloud.langfuse.com"
   };
 
   queryCounter = 1;
@@ -413,4 +469,3 @@ if (urlParams.get('demo') === '1') {
     switchTab('tab-result');
   }
 }
-

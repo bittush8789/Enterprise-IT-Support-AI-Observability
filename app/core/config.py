@@ -23,9 +23,13 @@ class Settings(BaseSettings):
     enable_guardrails: bool = True
     guardrails_dir: str = str(BASE_DIR / "config" / "guardrails")
 
+    # Observability & Cost Tracking (Langfuse)
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = "https://cloud.langfuse.com"
+    enable_langfuse: bool = True
+
     model_config = SettingsConfigDict(env_file=str(BASE_DIR / ".env"), extra="ignore")
-
-
 
 
 @lru_cache

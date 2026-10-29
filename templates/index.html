@@ -54,6 +54,10 @@
           <span>Pinecone Chunks:</span>
           <strong class="num-highlight">7</strong>
         </div>
+        <div class="stat-row">
+          <span>Observability:</span>
+          <strong id="sidebarObservabilityStatus" class="pct-highlight" style="font-size: 11px;">Langfuse Ready</strong>
+        </div>
       </div>
 
       <button id="openUpload" class="secondary-btn">+ Add Company Document</button>
@@ -145,6 +149,7 @@
               <span id="resultTimestamp" class="result-time">Just now</span>
             </div>
             <div class="result-actions">
+              <a id="viewLangfuseTraceBtn" class="action-btn hidden" target="_blank" rel="noopener" style="text-decoration: none; color: #65d69a; border-color: rgba(101,214,154,0.4);" title="Open Trace in Langfuse Dashboard">📊 Langfuse Trace</a>
               <button id="copyAnswerBtn" class="action-btn" title="Copy answer">📋 Copy Answer</button>
               <button id="backToChatBtn" class="action-btn" title="Back to Chat">💬 Back to Chat</button>
             </div>
@@ -230,6 +235,10 @@
       <div class="source-box">
         <span>Final Source</span>
         <strong id="sourceUsed">—</strong>
+      </div>
+      <div id="traceLangfuseBox" class="source-box hidden" style="margin-top: 12px;">
+        <span>Observability</span>
+        <a id="traceLangfuseLink" href="#" target="_blank" rel="noopener" style="color: #65d69a; font-size: 12px; text-decoration: underline; display: block; margin-top: 4px;">⚡ Open in Langfuse</a>
       </div>
     </aside>
   </div>

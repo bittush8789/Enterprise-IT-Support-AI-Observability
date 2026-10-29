@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, Header
 from pydantic import BaseModel, Field
 from app.core.config import get_settings
@@ -6,23 +7,46 @@ from app.rag.workflow import ask
 from app.rag.vectorstore import add_documents 
 from app.services.ingestion import load_file, chunk_documents, SUPPORTED
 from app.services.audit import write_audit
+from app.core.observability import get_observability_status
 
 router = APIRouter(prefix="/api")
 settings = get_settings()
 
 class ChatRequest(BaseModel):
     question: str = Field(min_length=2, max_length=3000)
+    session_id: Optional[str] = Field(default=None, description="Optional conversation / session ID for tracing")
+    user_id: Optional[str] = Field(default=None, description="Optional user identifier for cost attribution")
 
 
 @router.get("/health")
 def health():
-    return {"status": "ok", "service": settings.app_name}
+    return {
+        "status": "ok",
+        "service": settings.app_name,
+        "observability": get_observability_status()
+    }
+
+
+@router.get("/observability/status")
+def observability_status():
+    """
+    Returns the real-time configuration status of the Langfuse observability provider.
+    """
+    return get_observability_status()
 
 
 @router.post("/chat")
 def chat(payload: ChatRequest):
     try:
-        result = ask(payload.question)
+        if payload.session_id or payload.user_id:
+            result = ask(
+                payload.question,
+                session_id=payload.session_id,
+                user_id=payload.user_id,
+            )
+        else:
+            result = ask(payload.question)
+
         write_audit(payload.question, result["source_used"], result.get("trace", []))
         source = result["source_used"]
 
@@ -55,12 +79,12 @@ def chat(payload: ChatRequest):
             "rewritten_query": result.get("current_query", payload.question),
             "confidence_score": confidence,
             "groundedness_score": groundedness,
+            "trace_id": result.get("trace_id"),
+            "trace_url": result.get("trace_url"),
         }
-
 
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
-
 
 
 @router.post("/ingest")

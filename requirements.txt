@@ -20,7 +20,9 @@ pypdf==6.16.2
 python-docx==1.2.0
 python-dotenv==1.1.1
 
+# Observability & Cost Tracking
+langfuse==4.15.2
+
 # Testing & Evaluation
 pytest==8.3.4
 httpx==0.28.1
-
